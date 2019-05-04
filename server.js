@@ -1,28 +1,21 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const mongoose = require('mongoose');
+const todos = require('./routes/todos');
 
-const users = require('./routes/api/users');
-const profile = require('./routes/api/profile');
-const todos = require('./routes/api/todos');
+// Mongoose
+const mongodbUrl = 'mongodb://localhost:27017/beabee';
+mongoose.connect(mongodbUrl, { useNewUrlParser: true });
+const db = mongoose.connection;
 
+db.on('error', console.error.bind(console, 'MongoDB connection error:')); // Bind connection to error event
+
+const port = 5100;
 const app = express();
 
-// DB Config
-const db = require('./config/keys').mongoURI;
-
-// Connect to MonogDB
-mongoose
-  .connect(db)
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
-
-app.get('/', (req, res) => res.send('Hello'));
-
-// Use Routes
-app.use('/api/users', users);
-app.use('/api/profile', profile);
+app.use(bodyParser.json());
+app.use(cors()); // for working requests
 app.use('/api/todos', todos);
 
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => console.log(`Server is runnig on port ${port}`));
+app.listen(port, () => console.log(`Server started on port ${port}`));
