@@ -21,6 +21,13 @@ const TaskWrapper = styled.div`
 		font-weight: bold;
 	}
 
+	.overdue {
+		font-weight: normal;
+		font-size: 12px;
+		color: red;
+		margin-left: 5px;
+	}
+
 	.name:hover {
 		color: #f3c622;
 		cursor: pointer;
@@ -68,18 +75,34 @@ class Todo extends Component {
 	};
 
 	render() {
-		const { name, description, isCompleted } = this.props.todo;
+		const {
+			name,
+			description,
+			isCompleted,
+			isHabit,
+			dateStarted,
+			dateFinished
+		} = this.props.todo;
+		const date = this.props.date;
+
 		return (
 			<TodoWrapper>
 				<TaskWrapper>
 					<span className='name' onClick={this.handleOnExpandCick}>
 						{name}
+						{!isHabit &&
+						!isCompleted &&
+						new Date(dateStarted) < new Date(this.props.date) ? (
+							<span className='overdue'>overdue - {dateStarted}</span>
+						) : null}
 					</span>
 					<div className='icons'>
-						<i
-							className='fas fa-check-square fa-lg'
-							onClick={this.handleOnCompleteClick}
-						/>
+						{!isHabit ? (
+							<i
+								className='fas fa-check-square fa-lg'
+								onClick={this.handleOnCompleteClick}
+							/>
+						) : null}
 						<i
 							className='fas fa-times fa-lg'
 							onClick={this.handleOnDeleteClick}

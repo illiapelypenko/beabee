@@ -6,6 +6,7 @@ import Todo from './Todo';
 import List from './List';
 
 const TodosWrapper = styled.div`
+	min-height: 70vh;
 	display: flex;
 	flex-direction: column;
 	border: 3px solid #f0f0f0;
@@ -28,13 +29,15 @@ class Todos extends Component {
 		return (
 			new Date(todo.dateStarted) <= new Date(this.props.date) &&
 			new Date(todo.dateFinished) >= new Date(this.props.date) &&
-			todo.isHabit &&
-			todo.isCompleted === false
+			todo.isHabit
 		);
 	};
 
 	filterCompleted = todo => {
-		return todo.isCompleted === true;
+		return (
+			(todo.isCompleted === true && !todo.isHabit) ||
+			(todo.isHabit && new Date(todo.dateFinished) < new Date(this.props.date))
+		);
 	};
 
 	render() {

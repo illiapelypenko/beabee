@@ -35,7 +35,7 @@ class List extends Component {
 	};
 
 	render() {
-		const { todos, name } = this.props;
+		const { todos, name, date } = this.props;
 		return (
 			<>
 				<LineWrapper onClick={this.handleOnExpandClick}>{name}</LineWrapper>
@@ -43,7 +43,7 @@ class List extends Component {
 					{this.state.isExpanded
 						? todos
 								.filter(this.props.filter)
-								.map(todo => <Todo key={todo._id} todo={todo} />)
+								.map(todo => <Todo key={todo._id} todo={todo} date={date} />)
 						: null}
 				</ListWrapper>
 			</>
