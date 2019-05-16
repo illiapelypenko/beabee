@@ -12,7 +12,7 @@ const MainpageWrapper = styled.div`
 
 export default class Mainpage extends Component {
 	state = {
-		date: new Date('2019-05-07')
+		date: new Date('2019-05-16')
 	};
 
 	handleOnDateChange = e => {
